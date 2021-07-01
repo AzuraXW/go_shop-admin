@@ -63,3 +63,11 @@ export function deleteRole(roleId) {
     method: 'delete'
   })
 }
+
+// 获取所有角色列表
+export function getRoleList() {
+  return request({
+    url: `/admin/roles/list`,
+    method: 'get'
+  })
+}

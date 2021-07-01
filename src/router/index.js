@@ -83,31 +83,6 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/documentation',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/documentation/index'),
-  //       name: 'Documentation',
-  //       meta: { title: 'Documentation', icon: 'documentation', affix: false }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/guide',
-  //   component: Layout,
-  //   redirect: '/guide/index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/guide/index'),
-  //       name: 'Guide',
-  //       meta: { title: 'Guide', icon: 'guide', noCache: true }
-  //     }
-  //   ]
-  // },
   {
     path: '/profile',
     component: Layout,
@@ -118,7 +93,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/profile/index'),
         name: 'Profile',
-        meta: { title: 'Profile', icon: 'user', noCache: true }
+        meta: { title: '个人中心', icon: 'user', noCache: true }
       }
     ]
   },
@@ -130,7 +105,7 @@ export const constantRoutes = [
     alwaysShow: true,
     children: [
       {
-        path: 'list',
+        path: 'adminList',
         component: () => import('@/views/users/list'),
         name: 'AdminUserList',
         meta: { title: '后台用户列表' }
@@ -140,6 +115,126 @@ export const constantRoutes = [
         component: () => import('@/views/users/add'),
         name: 'AddAdminUser',
         meta: { title: '添加后台用户' }
+      }
+    ]
+  },
+  {
+    path: '/goods',
+    component: Layout,
+    redirect: '/goods/list',
+    meta: { title: '商品管理', icon: 'el-icon-goods' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/goods/list'),
+        name: 'goodsList',
+        meta: { title: '商品列表' }
+      }
+    ]
+  },
+  {
+    path: '/comment',
+    component: Layout,
+    redirect: '/comment/list',
+    meta: { title: '评论管理', icon: 'el-icon-info' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/comment/list'),
+        name: 'commentList',
+        meta: { title: '评论列表' }
+      }
+    ]
+  },
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/list',
+    meta: { title: '订单管理', icon: 'list' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/order/list'),
+        name: 'orderList',
+        meta: { title: '订单列表' }
+      }
+    ]
+  },
+  {
+    path: '/slide',
+    component: Layout,
+    redirect: '/slide/list',
+    meta: { title: '轮播图管理', icon: 'el-icon-picture' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/slide/list'),
+        name: 'slideList',
+        meta: { title: '轮播图列表' }
+      }
+    ]
+  },
+  {
+    path: '/category',
+    component: Layout,
+    redirect: '/category/list',
+    meta: { title: '分类管理', icon: 'tree' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/category/list'),
+        name: 'categoryList',
+        meta: { title: '分类列表' }
+      }
+    ]
+  },
+  {
+    path: '/shopuser',
+    component: Layout,
+    redirect: '/shopuser/list',
+    meta: { title: '商城用户', icon: 'user' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/shopuser/list'),
+        name: 'shopuserList',
+        meta: { title: '用户列表' }
+      }
+    ]
+  },
+  {
+    path: '/menu',
+    component: Layout,
+    redirect: '/menu/list',
+    meta: { title: '后台菜单', icon: 'el-icon-menu' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/menu/list'),
+        name: 'menuList',
+        meta: { title: '菜单列表' }
+      }
+    ]
+  },
+  {
+    path: '/aftersale',
+    component: Layout,
+    redirect: '/aftersale/list',
+    meta: { title: '售后管理', icon: 'el-icon-menu' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/aftersale/list'),
+        name: 'aftersaleList',
+        meta: { title: '售后列表' }
       }
     ]
   }

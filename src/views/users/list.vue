@@ -29,6 +29,7 @@
       <el-table-column
         type="index"
         label="#"
+        align="center"
       >
       </el-table-column>
       <el-table-column
@@ -61,7 +62,7 @@
         <el-table-column
           label="角色"
           header-align="center"
-          align="center"
+          align="left"
          >
           <template slot-scope="scope">
             <el-tag v-for="(item,index) in scope.row.roles" :key="index">{{item}}</el-tag>
@@ -71,16 +72,41 @@
           label="操作"
           header-align="center"
           align="center"
+          width="110"
         >
-          <el-button type="primary" size="mini" plain>配置角色</el-button>
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini" plain @click="openRoleDialog(scope.row, scope.$index)">配置角色</el-button>
+          </template>
         </el-table-column>
       </el-table-column>
       <el-table-column
         label="操作"
         align="center"
         >
-        <el-button type="danger" size="mini" plain>注销</el-button>
-        <el-button type="warning" size="mini" plain>禁用</el-button>
+        <el-table-column
+          label="注销"
+          align="center"
+          width="80"
+        >
+          <template slot-scope="scope">
+            <el-button type="danger" size="mini" plain @click="deleteUser(scope.row.id, scope.$index)">注销</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="状态"
+          align="center"
+          width="150"
+        >
+          <template slot-scope="scope">
+            <el-switch
+              :value="scope.row.is_locked === 0"
+              @change="changeUserStatus(scope.row.id, scope.$index)"
+              active-text="正常"
+              inactive-text="禁用">
+            </el-switch>
+          </template>
+          
+        </el-table-column>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -97,11 +123,53 @@
         :total="total">
       </el-pagination>
     </div>
+
+    <!-- 配置角色模态框 -->
+    <el-dialog
+      title="配置角色"
+      :visible.sync="roleDialogVisible"
+      width="40%"
+      @closed="handleDialogClosed"
+      >
+      <p>您正在为 [ {{settingUserInfo.username}} ] 配置角色</p>
+      <p>请选择角色</p>
+      <div>
+        <el-checkbox-group v-model="checkedRolesModel">
+          <el-tooltip
+            v-for="role in roleList"
+            :key="role.id"
+            effect="dark" 
+            :content="role.cn_name" 
+            placement="bottom"
+          >
+            <el-checkbox
+            :label="role.id"
+            border>
+              {{role.name}}
+            </el-checkbox>
+          </el-tooltip>
+          
+        </el-checkbox-group>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="roleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleAssignRole">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getAdminUserList } from '@/api/user-manager'
+import { 
+  getAdminUserList,
+  changeAdminUserStatus,
+  deleteUser,
+  assignRole
+} from '@/api/user-manager'
+
+import { 
+  getRoleList
+} from '@/api/role'
 
 export default {
   data () {
@@ -120,7 +188,11 @@ export default {
         username: '',
         email: ''
       },
-      additionSearch: false
+      additionSearch: false,
+      roleDialogVisible: false,
+      settingUserInfo: {},
+      roleList:[],
+      checkedRolesModel: []
     }
   },
   created () {
@@ -170,6 +242,70 @@ export default {
       this.currentPage = 1
       this.getUserList()
       this.additionSearch = false
+    },
+    // 改变用户状态
+    changeUserStatus (id, $index) {
+      this.$confirm('请再次确认是否需要更改该用户状态？', '确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          changeAdminUserStatus(id)
+            .then(res => {
+              this.userList[$index].is_locked = res.is_lock
+            })
+        })
+    },
+    // 删除用户
+    deleteUser (id, $index) {
+      this.$confirm('注销即代表永久删除该用户，请确认？', '注销', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          deleteUser(id).then(res => {
+            if (res.success) {
+              this.$message({
+                message: res.message,
+                type: 'success'
+              })
+              this.userList.splice($index, 1)
+              this.total -= 1
+            }
+          })
+        })
+    },
+    // 打开配置角色模态框
+    async openRoleDialog (row, $index) {
+      this.roleDialogVisible = true
+      this.settingUserInfo = row
+      this.settingUserInfo.$index = $index
+      if (!this.roleList.length) {
+        // 没有角色列表
+        this.roleList = await getRoleList()
+      }
+      // 设置复选框组初始状态（默认选中用户本来就有的角色）
+      this.checkedRolesModel = this.roleList.filter(role => {
+            return row.roles.indexOf(role.name) >= 0
+          }).map(role => {
+            return role.id
+          })
+    },
+    // 配置角色
+    handleAssignRole () {
+      const { id } = this.settingUserInfo
+      assignRole(id, this.checkedRolesModel.join(','))
+        .then((res) => {
+          this.roleDialogVisible = false
+          this.userList[this.settingUserInfo.$index].roles = res.rolenames
+        })
+    },
+    // 配置模态框关闭的回调
+    handleDialogClosed () {
+      this.checkedRolesModel = []
+      this.settingUserInfo = {}
     }
   }
 }
@@ -179,6 +315,11 @@ export default {
 .user-list{
   .pagination-wrapper{
     margin: 25px -10px;
+  }
+  .el-table{
+    .el-tag{
+      margin: 3px 5px 3px 0
+    }
   }
 }
 </style>

@@ -20,8 +20,19 @@
       </el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope)">编辑</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope)">删除</el-button>
+          <template v-if="scope.row.is_locked != 1">
+            <el-button 
+            type="primary" 
+            size="small" 
+            @click="handleEdit(scope)"
+            >编辑</el-button>
+            <el-button 
+            type="danger" 
+            size="small" 
+            @click="handleDelete(scope)"
+            >删除</el-button>
+          </template>
+          <span v-else>角色已被锁定，无法操作</span>
         </template>
       </el-table-column>
     </el-table>
@@ -180,11 +191,7 @@ export default {
       this.dialogVisible = true
       this.checkStrictly = true
       this.role = deepClone(scope.row)
-      console.log(this.role)
-      this.checkedPermissions = this.rolesList
-      .filter(item => {
-        return item.id == scope.row.id
-      })[0].permission.map(item => {
+      this.checkedPermissions = scope.row.permission.map(item => {
         return item.id
       })
     },
@@ -239,6 +246,10 @@ export default {
           if (res2.success) {
             for (let index = 0; index < this.rolesList.length; index++) {
               if (this.rolesList[index].id === this.role.id) {
+                // TODO: 编辑角色后页面没更改
+                this.role.permission = this.rolesList[index].permission.filter(item => {
+                  return this.checkedPermissions.indexOf(item.id) >= 0
+                })
                 this.rolesList.splice(index, 1, Object.assign({}, this.role))
                 break
               }
@@ -249,11 +260,14 @@ export default {
         // 新建角色
         const res = await addRole(this.role)
         if (res.success) {
-          const res2 = await giveRolePermission(
-            res.role_id,
-            this.checkedPermissions.join(',')
-          )
-          if (res2.success) {
+          if (this.checkedPermissions.length > 0) {
+              await giveRolePermission(
+              res.role_id,
+              this.checkedPermissions.join(',')
+            )
+          }
+          if (res.success) {
+            this.role.id = res.role_id
             this.rolesList.push(this.role)
           }
         }
