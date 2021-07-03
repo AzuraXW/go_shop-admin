@@ -7,10 +7,10 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
-import componentsRouter from './modules/components'
-import chartsRouter from './modules/charts'
-import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
+// import componentsRouter from './modules/components'
+// import chartsRouter from './modules/charts'
+// import tableRouter from './modules/table'
+// import nestedRouter from './modules/nested'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -98,151 +98,21 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/users/admin',
+    path: '/icon',
     component: Layout,
-    redirect: '/users/admin/list',
-    meta: { title: '后台用户', icon: 'peoples' },
-    alwaysShow: true,
     children: [
       {
-        path: 'adminList',
-        component: () => import('@/views/users/list'),
-        name: 'AdminUserList',
-        meta: { title: '后台用户列表' }
-      },
-      {
-        path: 'add',
-        component: () => import('@/views/users/add'),
-        name: 'AddAdminUser',
-        meta: { title: '添加后台用户' }
-      }
-    ]
-  },
-  {
-    path: '/goods',
-    component: Layout,
-    redirect: '/goods/list',
-    meta: { title: '商品管理', icon: 'el-icon-goods' },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/goods/list'),
-        name: 'goodsList',
-        meta: { title: '商品列表' }
-      }
-    ]
-  },
-  {
-    path: '/comment',
-    component: Layout,
-    redirect: '/comment/list',
-    meta: { title: '评论管理', icon: 'el-icon-info' },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/comment/list'),
-        name: 'commentList',
-        meta: { title: '评论列表' }
-      }
-    ]
-  },
-  {
-    path: '/order',
-    component: Layout,
-    redirect: '/order/list',
-    meta: { title: '订单管理', icon: 'list' },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/order/list'),
-        name: 'orderList',
-        meta: { title: '订单列表' }
-      }
-    ]
-  },
-  {
-    path: '/slide',
-    component: Layout,
-    redirect: '/slide/list',
-    meta: { title: '轮播图管理', icon: 'el-icon-picture' },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/slide/list'),
-        name: 'slideList',
-        meta: { title: '轮播图列表' }
-      }
-    ]
-  },
-  {
-    path: '/category',
-    component: Layout,
-    redirect: '/category/list',
-    meta: { title: '分类管理', icon: 'tree' },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/category/list'),
-        name: 'categoryList',
-        meta: { title: '分类列表' }
-      }
-    ]
-  },
-  {
-    path: '/shopuser',
-    component: Layout,
-    redirect: '/shopuser/list',
-    meta: { title: '商城用户', icon: 'user' },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/shopuser/list'),
-        name: 'shopuserList',
-        meta: { title: '用户列表' }
-      }
-    ]
-  },
-  {
-    path: '/menu',
-    component: Layout,
-    redirect: '/menu/list',
-    meta: { title: '后台菜单', icon: 'el-icon-menu' },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/menu/list'),
-        name: 'menuList',
-        meta: { title: '菜单列表' }
-      }
-    ]
-  },
-  {
-    path: '/aftersale',
-    component: Layout,
-    redirect: '/aftersale/list',
-    meta: { title: '售后管理', icon: 'el-icon-menu' },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/aftersale/list'),
-        name: 'aftersaleList',
-        meta: { title: '售后列表' }
+        path: 'index',
+        component: () => import('@/views/icons/index'),
+        name: 'Icons',
+        meta: { title: 'Icons', icon: 'icon', noCache: true }
       }
     ]
   }
 ]
 
 /**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
+ * 动态路由
  */
 export const asyncRoutes = [
   {

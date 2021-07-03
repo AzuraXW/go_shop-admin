@@ -24,3 +24,11 @@ export function logout() {
     method: 'post'
   })
 }
+
+// 获取动态路由表
+export function getAsyncRoutes() {
+  return request({
+    url: '/admin/menus',
+    method: 'get'
+  })
+}

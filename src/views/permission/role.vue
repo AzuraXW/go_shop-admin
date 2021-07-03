@@ -21,15 +21,15 @@
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
           <template v-if="scope.row.is_locked != 1">
-            <el-button 
-            type="primary" 
-            size="small" 
-            @click="handleEdit(scope)"
+            <el-button
+              type="primary"
+              size="small"
+              @click="handleEdit(scope)"
             >编辑</el-button>
-            <el-button 
-            type="danger" 
-            size="small" 
-            @click="handleDelete(scope)"
+            <el-button
+              type="danger"
+              size="small"
+              @click="handleDelete(scope)"
             >删除</el-button>
           </template>
           <span v-else>角色已被锁定，无法操作</span>
@@ -39,7 +39,7 @@
 
     <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'编辑角色':'新建角色'">
       <el-form :model="role" label-width="80px" label-position="left">
-        <el-form-item label="key" v-if="dialogType!=='edit'">
+        <el-form-item v-if="dialogType!=='edit'" label="key">
           <el-input v-model="role.name" placeholder="key（角色英文名称）" />
         </el-form-item>
         <el-form-item label="角色名称">
@@ -56,10 +56,11 @@
         <el-form-item label="权限">
           <el-checkbox-group v-model="checkedPermissions">
             <el-checkbox
-            v-for="permission in permissions"
-            :key="permission.id"
-            :label="permission.id">
-              {{permission.cn_name}}
+              v-for="permission in permissions"
+              :key="permission.id"
+              :label="permission.id"
+            >
+              {{ permission.cn_name }}
             </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
@@ -75,11 +76,11 @@
 <script>
 import path from 'path'
 import { deepClone } from '@/utils'
-import { getRoutes, 
-  getRoles, 
-  addRole, 
-  deleteRole, 
-  updateRole, 
+import { getRoutes,
+  getRoles,
+  addRole,
+  deleteRole,
+  updateRole,
   getPermissions,
   giveRolePermission,
   updateRolePermission
@@ -171,7 +172,7 @@ export default {
     },
 
     // 拿到所有的权限列表
-    getAllPermission () {
+    getAllPermission() {
       getPermissions()
         .then(res => {
           this.permissions = res
@@ -247,9 +248,10 @@ export default {
             for (let index = 0; index < this.rolesList.length; index++) {
               if (this.rolesList[index].id === this.role.id) {
                 // TODO: 编辑角色后页面没更改
-                this.role.permission = this.rolesList[index].permission.filter(item => {
+                this.role.permission = this.permissions.filter(item => {
                   return this.checkedPermissions.indexOf(item.id) >= 0
                 })
+                console.log(this.role)
                 this.rolesList.splice(index, 1, Object.assign({}, this.role))
                 break
               }
@@ -261,7 +263,7 @@ export default {
         const res = await addRole(this.role)
         if (res.success) {
           if (this.checkedPermissions.length > 0) {
-              await giveRolePermission(
+            await giveRolePermission(
               res.role_id,
               this.checkedPermissions.join(',')
             )
@@ -286,7 +288,7 @@ export default {
         type: 'success'
       })
     },
-    
+
     // reference: src/view/layout/components/Sidebar/SidebarItem.vue
     onlyOneShowingChild(children = [], parent) {
       let onlyOneChild = null
