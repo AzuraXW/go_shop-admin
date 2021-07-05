@@ -32,3 +32,23 @@ export function getAsyncRoutes() {
     method: 'get'
   })
 }
+
+// 获取邮箱验证码
+export function getEmailVeifyCode(email) {
+  return request({
+    url: '/auth/password/reset/email/code',
+    method: 'post',
+    data: {
+      email
+    }
+  })
+}
+
+// 用户更新密码
+export function updatePassword(id, data) {
+  return request({
+    url: `/admin/users/${id}/update_pwd`,
+    method: 'post',
+    data
+  })
+}

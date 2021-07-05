@@ -62,7 +62,6 @@
 
 <script>
 import SocialSign from './components/SocialSignin'
-import { Message } from 'element-ui'
 
 export default {
   name: 'Login',

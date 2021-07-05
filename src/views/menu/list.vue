@@ -52,7 +52,7 @@
     <el-dialog
       title="配置角色访问路由权限"
       :visible.sync="dialogVisible"
-      width="30%"
+      width="50%"
       :before-close="handleClose"
     >
       <div class="assign-menu-role">

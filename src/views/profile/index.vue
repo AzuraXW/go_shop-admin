@@ -13,6 +13,9 @@
               <el-tab-pane label="帐号" name="account">
                 <account :user="user" />
               </el-tab-pane>
+              <el-tab-pane label="更改密码" name="updatepwd">
+                <UpdatePwd />
+              </el-tab-pane>
             </el-tabs>
           </el-card>
         </el-col>
@@ -26,10 +29,11 @@
 import { mapGetters } from 'vuex'
 import UserCard from './components/UserCard'
 import Account from './components/Account'
+import UpdatePwd from './components/UpdatePwd'
 
 export default {
   name: 'Profile',
-  components: { UserCard, Account },
+  components: { UserCard, Account, UpdatePwd },
   data() {
     return {
       user: {},

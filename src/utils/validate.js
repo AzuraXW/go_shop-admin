@@ -85,3 +85,8 @@ export function isArray(arg) {
   }
   return Array.isArray(arg)
 }
+
+export function validPassword(password) {
+  // 暂时先这么写着
+  return /\d+[a-zA-Z]+/.test(password)
+}
