@@ -73,8 +73,8 @@ export default {
           { required: true, message: '旧密码不能为空', trigger: 'blur' }
         ],
         newPassword: [
-          { required: true, message: '新密码不能为空', trigger: 'blur' }
-          // { validator: checkNewPassword, trigger: 'blur' }
+          { required: true, message: '新密码不能为空', trigger: 'blur' },
+          { validator: checkNewPassword, trigger: 'blur' }
         ],
         newPasswordConfirm: [
           { required: true, message: '请再输入一次密码', trigger: 'blur' },

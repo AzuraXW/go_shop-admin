@@ -1,34 +1,34 @@
 <template>
   <div class="add-user-form p-25">
     <el-form
-    ref="form"
-    :model="form"
-    label-width="80px"
-    :rules="rules"
+      ref="form"
+      :model="form"
+      label-width="80px"
+      :rules="rules"
     >
       <el-form-item label="邮箱" prop="email">
-        <el-input v-model="form.email"></el-input>
+        <el-input v-model="form.email" />
       </el-form-item>
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="form.username"></el-input>
+        <el-input v-model="form.username" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input
-        v-model="form.password"
-        show-password
-        @input="onPwdInput"
-        ></el-input>
+          v-model="form.password"
+          show-password
+          @input="onPwdInput"
+        />
       </el-form-item>
       <el-form-item label="确认密码" prop="password_confirmation">
         <el-input
-        v-model="form.password_confirmation"
-        show-password
-        ></el-input>
+          v-model="form.password_confirmation"
+          show-password
+        />
       </el-form-item>
       <el-form-item>
         <el-checkbox
-        v-model="form.defaultPwdChecked"
-        @change="onDefaultPWD"
+          v-model="form.defaultPwdChecked"
+          @change="onDefaultPWD"
         >启用默认密码</el-checkbox>
       </el-form-item>
       <el-form-item>
@@ -43,7 +43,7 @@ import { addAdminUser } from '@/api/user-manager'
 import { validEmail } from '@/utils/validate'
 
 export default {
-  data () {
+  data() {
     // 邮箱字段验证函数
     const validEmailField = (rule, value, callback) => {
       if (!validEmail(value)) {
@@ -76,7 +76,7 @@ export default {
         ],
         email: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
-          { validator: validEmailField, trigger: 'blur' },
+          { validator: validEmailField, trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -90,20 +90,20 @@ export default {
     }
   },
   methods: {
-    onDefaultPWD (newVal) {
+    onDefaultPWD(newVal) {
       if (newVal === true) {
         this.form.password = '123456'
       } else {
         this.form.password = ''
       }
     },
-    onPwdInput () {
+    onPwdInput() {
       if (this.form.defaultPwdChecked === true) {
         this.form.defaultPwdChecked = false
       }
     },
     // 表单提交
-    onSubmit () {
+    onSubmit() {
       this.$refs.form.validate()
         .then(valid => {
           if (valid) {
@@ -116,7 +116,7 @@ export default {
                 }
               })
           }
-        }).catch(error => {
+        }).catch(() => {
           this.$message({
             message: '表单验证不通过',
             type: 'warning'

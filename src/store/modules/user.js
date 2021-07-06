@@ -8,7 +8,8 @@ const state = {
   avatar: '',
   introduction: '',
   roles: [],
-  email: ''
+  email: '',
+  userId: ''
 }
 
 const mutations = {

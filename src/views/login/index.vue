@@ -133,7 +133,7 @@ export default {
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })
-            .catch((error) => {
+            .catch(() => {
               this.loading = false
             })
         } else {

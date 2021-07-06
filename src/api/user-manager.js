@@ -10,7 +10,7 @@ export function getAdminUserList(data) {
 }
 
 // 添加后台用户
-export function addAdminUser (data) {
+export function addAdminUser(data) {
   return request({
     url: '/admin/users',
     method: 'post',
@@ -19,7 +19,7 @@ export function addAdminUser (data) {
 }
 
 // 更改后台用户状态
-export function changeAdminUserStatus (id) {
+export function changeAdminUserStatus(id) {
   return request({
     url: `/admin/users/${id}/lock`,
     method: 'patch'
@@ -27,7 +27,7 @@ export function changeAdminUserStatus (id) {
 }
 
 // 删除用户
-export function deleteUser (id) {
+export function deleteUser(id) {
   return request({
     url: `/admin/users/${id}/delete`,
     method: 'delete'
@@ -35,7 +35,7 @@ export function deleteUser (id) {
 }
 
 // 配置用户的角色
-export function assignRole (userId, roleIds) {
+export function assignRole(userId, roleIds) {
   return request({
     url: `/admin/users/${userId}/role/update`,
     method: 'post',

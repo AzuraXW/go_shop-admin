@@ -52,3 +52,15 @@ export function updatePassword(id, data) {
     data
   })
 }
+
+// 更新用户头像
+export function updateAvatar(id, file) {
+  return request({
+    url: `/admin/users/${id}/avatar`,
+    method: 'post',
+    headers: {
+      'content-type': 'multipart/form-data;'
+    },
+    data: file
+  })
+}

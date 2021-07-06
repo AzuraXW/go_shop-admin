@@ -9,7 +9,7 @@ export function getRoles() {
 }
 
 // 获取所有权限
-export function getPermissions () {
+export function getPermissions() {
   return request({
     url: '/admin/permissions',
     method: 'get'
@@ -35,7 +35,7 @@ export function updateRole(roleId, data) {
 }
 
 // 给角色分配权限
-export function giveRolePermission (roleId, permissionIds) {
+export function giveRolePermission(roleId, permissionIds) {
   return request({
     url: `/admin/roles/${roleId}/permission`,
     method: 'post',
@@ -46,7 +46,7 @@ export function giveRolePermission (roleId, permissionIds) {
 }
 
 // 更新角色权限
-export function updateRolePermission (roleId, permissionIds) {
+export function updateRolePermission(roleId, permissionIds) {
   return request({
     url: `/admin/roles/${roleId}/permission`,
     method: 'put',
